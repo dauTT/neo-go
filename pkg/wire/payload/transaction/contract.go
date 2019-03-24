@@ -26,3 +26,8 @@ func NewContract(ver version.TX) *Contract {
 func (c *Contract) encodeExcl(bw *util.BinWriter) {}
 
 func (c *Contract) decodeExcl(br *util.BinReader) {}
+
+// BaseTx returns the Base field of the Contract.
+func (c Contract) BaseTx() *Base {
+	return c.Base
+}

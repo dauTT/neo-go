@@ -1,6 +1,8 @@
 package transaction
 
 import (
+	"bytes"
+
 	"github.com/CityOfZion/neo-go/pkg/wire/util"
 )
 
@@ -34,4 +36,21 @@ func (s *Witness) Decode(br *util.BinReader) error {
 	br.Read(s.VerificationScript)
 
 	return br.Err
+}
+
+// Bytes returns the Byte representation of Witness.
+func (s *Witness) Bytes() ([]byte, error) {
+	buf := new(bytes.Buffer)
+	bbuf := &util.BinWriter{W: buf}
+	err := s.Encode(bbuf)
+	return buf.Bytes(), err
+}
+
+// Size returns the size of the Block in number of bytes.
+func (b *Witness) Size() (int, error) {
+	bb, err := b.Bytes()
+	if err != nil {
+		return 0, err
+	}
+	return len(bb), nil
 }

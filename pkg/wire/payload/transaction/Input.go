@@ -1,6 +1,10 @@
 package transaction
 
-import "github.com/CityOfZion/neo-go/pkg/wire/util"
+import (
+	"bytes"
+
+	"github.com/CityOfZion/neo-go/pkg/wire/util"
+)
 
 // Input represents a Transaction input.
 type Input struct {
@@ -29,4 +33,17 @@ func (i *Input) Encode(bw *util.BinWriter) {
 func (i *Input) Decode(br *util.BinReader) {
 	br.Read(&i.PrevHash)
 	br.Read(&i.PrevIndex)
+}
+
+// Bytes returns the raw bytes of the Input.
+func (i *Input) Bytes() []byte {
+	buf := new(bytes.Buffer)
+	bw := &util.BinWriter{W: buf}
+	i.Encode(bw)
+	return buf.Bytes()
+}
+
+// Size returns the size of the Input in number of bytes.
+func (i Input) Size() int {
+	return len(i.Bytes())
 }

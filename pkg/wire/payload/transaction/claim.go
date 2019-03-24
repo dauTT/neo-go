@@ -41,3 +41,8 @@ func (c *Claim) decodeExcl(br *util.BinReader) {
 	}
 
 }
+
+// BaseTx returns the Base field of the Claim transaction.
+func (c Claim) BaseTx() *Base {
+	return c.Base
+}

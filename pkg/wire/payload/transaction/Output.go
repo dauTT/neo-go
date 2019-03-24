@@ -1,6 +1,10 @@
 package transaction
 
-import "github.com/CityOfZion/neo-go/pkg/wire/util"
+import (
+	"bytes"
+
+	"github.com/CityOfZion/neo-go/pkg/wire/util"
+)
 
 // Output represents a transaction output in the neo-network
 type Output struct {
@@ -35,4 +39,17 @@ func (o *Output) Decode(br *util.BinReader) {
 	br.Read(&o.AssetID)
 	br.Read(&o.Amount)
 	br.Read(&o.ScriptHash)
+}
+
+// Bytes returns the raw bytes of the Output.
+func (o *Output) Bytes() []byte {
+	buf := new(bytes.Buffer)
+	bw := &util.BinWriter{W: buf}
+	o.Encode(bw)
+	return buf.Bytes()
+}
+
+// Size returns the size of the Output in number of bytes.
+func (o Output) Size() int {
+	return len(o.Bytes())
 }

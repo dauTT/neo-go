@@ -16,13 +16,10 @@ type decodeExclusiveFields func(br *util.BinReader)
 // transaction types. Each transaction will implement this interface
 // and so wil be a transactioner
 type Transactioner interface {
-	Encode(w io.Writer) error
-	Decode(r io.Reader) error
+	Encode(io.Writer) error
+	Decode(io.Reader) error
+	BaseTx() *Base
 	ID() (util.Uint256, error)
-	Bytes() []byte
-	UTXOs() []*Output
-	TXOs() []*Input
-	Witness() []*Witness
 }
 
 // Base transaction is the template for all other transactions
@@ -137,7 +134,12 @@ func (b *Base) decodeHashableFields(br *util.BinReader) {
 		b.Attributes[i] = &Attribute{}
 		b.Attributes[i].Decode(br)
 	}
-
+	/*
+		attrStr1 := hex.EncodeToString(b.Attributes[0].Data)
+		attrStr2 := hex.EncodeToString(b.Attributes[1].Data)
+		fmt.Println(attrStr1)
+		fmt.Println(attrStr2)
+	*/
 	lenInputs := br.VarUint()
 
 	b.Inputs = make([]*Input, lenInputs)
@@ -199,6 +201,11 @@ func (b *Base) Bytes() []byte {
 	return buf.Bytes()
 }
 
+// Size returns the size of the tx in number of bytes.
+func (b Base) Size() int {
+	return len(b.Bytes())
+}
+
 // UTXOs returns the outputs in the tx
 func (b *Base) UTXOs() []*Output {
 	return b.Outputs
@@ -212,4 +219,19 @@ func (b *Base) TXOs() []*Input {
 // Witness returns the witnesses in the tx
 func (b *Base) Witness() []*Witness {
 	return b.Witnesses
+}
+
+// TypeTx returns the Type in the tx
+func (b Base) TypeTx() types.TX {
+	return b.Type
+}
+
+// VersionTx returns the Version in the tx
+func (b Base) VersionTx() version.TX {
+	return b.Version
+}
+
+// Attrs returns the Attributes in the tx
+func (b Base) Attrs() []*Attribute {
+	return b.Attributes
 }

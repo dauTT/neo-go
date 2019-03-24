@@ -41,3 +41,8 @@ func (s *StateTX) decodeExcl(br *util.BinReader) {
 		s.Descriptors[i].Decode(br)
 	}
 }
+
+// BaseTx returns the Base field of the StateTX transaction.
+func (s StateTX) BaseTx() *Base {
+	return s.Base
+}

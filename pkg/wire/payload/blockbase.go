@@ -130,3 +130,12 @@ func (b *BlockBase) Bytes() ([]byte, error) {
 	err := b.Encode(buf)
 	return buf.Bytes(), err
 }
+
+// Size returns the Byte representation of Block
+func (b *BlockBase) Size() (int, error) {
+	bb, err := b.Bytes()
+	if err != nil {
+		return 0, err
+	}
+	return len(bb), nil
+}

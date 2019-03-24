@@ -88,3 +88,8 @@ func (p *Publish) decodeExcl(br *util.BinReader) {
 	p.Email = br.VarString()
 	p.Description = br.VarString()
 }
+
+// BaseTx returns the Base field of the Publish transaction.
+func (p Publish) BaseTx() *Base {
+	return p.Base
+}

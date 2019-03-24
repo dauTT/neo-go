@@ -69,3 +69,12 @@ func (r *BinReader) VarString() string {
 	b := r.VarBytes()
 	return string(b)
 }
+
+//VarUint8 reads a variable uint8 from the
+// underlying reader
+func (r *BinReader) VarUint8() uint8 {
+	var b uint8
+	r.Err = binary.Read(r.R, binary.LittleEndian, &b)
+
+	return b
+}

@@ -65,3 +65,13 @@ func (b *Block) Bytes() ([]byte, error) {
 	err := b.Encode(buf)
 	return buf.Bytes(), err
 }
+
+// Size returns the Byte representation of Block
+func (b Block) Size() (int, error) {
+	bb, err := b.Bytes()
+	if err != nil {
+		return 0, err
+	}
+
+	return len(bb), nil
+}

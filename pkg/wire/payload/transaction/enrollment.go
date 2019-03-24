@@ -31,3 +31,8 @@ func (e *Enrollment) encodeExcl(bw *util.BinWriter) {
 func (e *Enrollment) decodeExcl(br *util.BinReader) {
 	e.Key.Decode(br)
 }
+
+// BaseTx returns the Base field of the Enrollment transaction.
+func (s Enrollment) BaseTx() *Base {
+	return s.Base
+}

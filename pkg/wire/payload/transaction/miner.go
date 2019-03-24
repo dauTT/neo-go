@@ -23,10 +23,15 @@ func NewMiner(ver version.TX) *Miner {
 	return Miner
 }
 
-func (c *Miner) encodeExcl(bw *util.BinWriter) {
-	bw.Write(c.Nonce)
+func (m *Miner) encodeExcl(bw *util.BinWriter) {
+	bw.Write(m.Nonce)
 }
 
-func (c *Miner) decodeExcl(br *util.BinReader) {
-	br.Read(&c.Nonce)
+func (m *Miner) decodeExcl(br *util.BinReader) {
+	br.Read(&m.Nonce)
+}
+
+// BaseTx returns the Base field of the Miner transaction.
+func (m Miner) BaseTx() *Base {
+	return m.Base
 }

@@ -56,3 +56,8 @@ func (r *Register) decodeExcl(br *util.BinReader) {
 	r.Owner.Decode(br)
 	br.Read(&r.Admin)
 }
+
+// BaseTx returns the Base field of the Register transaction.
+func (r Register) BaseTx() *Base {
+	return r.Base
+}

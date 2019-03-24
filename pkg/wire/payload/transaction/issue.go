@@ -25,10 +25,15 @@ func NewIssue(ver version.TX) *Issue {
 	return Issue
 }
 
-func (c *Issue) encodeExcl(bw *util.BinWriter) {
-	if c.Version > 1 {
+func (i *Issue) encodeExcl(bw *util.BinWriter) {
+	if i.Version > 1 {
 		bw.Err = errors.New("Version Number Invalid, Issue cannot be more than 0")
 	}
 }
 
-func (c *Issue) decodeExcl(br *util.BinReader) {}
+func (i *Issue) decodeExcl(br *util.BinReader) {}
+
+// BaseTx returns the Base field of the Issue transaction.
+func (i Issue) BaseTx() *Base {
+	return i.Base
+}
